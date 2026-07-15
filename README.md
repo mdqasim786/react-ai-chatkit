@@ -88,3 +88,62 @@ Perfect for:
 - Internal AI tools
 - LLM interfaces
 - ChatGPT-like applications
+
+## ⚙️ Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| messages | Message[] | Required | Array of chat messages |
+| onSendMessage | (message: string) => void | Required | Called when a message is sent |
+| title | string | "React AI ChatKit" | Header title |
+| theme | "light" \| "dark" | "dark" | Chat theme |
+| primaryColor | string | "#7c3aed" | Primary accent color |
+| width | string | "450px" | Chat width |
+| height | string | "520px" | Chat height |
+| showHeader | boolean | true | Show header |
+| showSendButton | boolean | true | Show send button |
+| showAvatars | boolean | true | Show avatars |
+| showTimestamps | boolean | true | Show timestamps |
+| placeholder | string | "Type your message..." | Input placeholder |
+| disabled | boolean | false | Disable input |
+| isTyping | boolean | false | Show typing indicator |
+
+## 🎨 Customization
+
+```tsx
+<AIChatBox
+  theme="dark"
+  primaryColor="#6366f1"
+  width="500px"
+  height="600px"
+  showAvatars
+  showTimestamps
+/>
+```
+
+## 🛣️ Roadmap
+
+- ✅ Chat UI
+- ✅ Markdown support
+- ✅ Typing indicator
+- ✅ Copy message button
+- ✅ Responsive design
+- 🔄 Syntax highlighting
+- 🔄 Streaming AI responses
+- 🔄 Theme presets
+- 🔄 File uploads
+- 🔄 Voice support
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome.
+
+If you find a bug or have an idea for improvement, feel free to open an issue or submit a pull request.
+
+If you like this project, consider giving it a ⭐ on GitHub.
+
+## 📄 License
+
+MIT © Muhammad Qasim
+
+[![GitHub stars](https://img.shields.io/github/stars/mdqasim786/react-ai-chatkit?style=social)](https://github.com/mdqasim786/react-ai-chatkit)
