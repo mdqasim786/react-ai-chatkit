@@ -1,0 +1,58 @@
+{
+  "name": "react-ai-chatbox",
+  "version": "1.0.0",
+  "description": "A reusable React chatbox component for AI assistants, SaaS apps, and chatbot interfaces.",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsup && tsc --emitDeclarationOnly",
+    "dev": "tsup --watch"
+  },
+  "keywords": [
+    "react",
+    "chatbox",
+    "ai-chat",
+    "chat-ui",
+    "tailwind",
+    "nextjs",
+    "typescript",
+    "saas"
+  ],
+  "author": "Muhammad Qasim",
+  "license": "MIT",
+  "type": "commonjs",
+  "devDependencies": {
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "tsup": "^8.5.1",
+    "typescript": "^7.0.2"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "react-markdown": "^10.1.0"
+  }
+}

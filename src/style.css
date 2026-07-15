@@ -1,0 +1,244 @@
+.react-ai-chatbox-messages {
+  scrollbar-width: thin;
+  scrollbar-color: #6d28d9 transparent;
+}
+
+.react-ai-chatbox-messages::-webkit-scrollbar {
+  width: 8px;
+}
+
+.react-ai-chatbox-messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.react-ai-chatbox-messages::-webkit-scrollbar-thumb {
+  background: #6d28d9;
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.react-ai-chatbox-messages::-webkit-scrollbar-thumb:hover {
+  background: #7c3aed;
+  background-clip: padding-box;
+}
+
+.react-ai-chatbox-textarea {
+  scrollbar-width: thin;
+  scrollbar-color: #7c3aed transparent;
+}
+
+.react-ai-chatbox-textarea::-webkit-scrollbar {
+  width: 6px;
+}
+
+.react-ai-chatbox-textarea::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.react-ai-chatbox-textarea::-webkit-scrollbar-thumb {
+  background: #7c3aed;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background-clip: padding-box;
+}
+
+.react-ai-chatbox-textarea::-webkit-scrollbar-thumb:hover {
+  background: #8b5cf6;
+  background-clip: padding-box;
+}
+
+.react-ai-chatbox-footer {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 480px) {
+  .react-ai-chatbox-footer {
+    gap: 6px;
+    padding: 10px;
+  }
+
+  .react-ai-chatbox-textarea {
+    font-size: 16px !important;
+  }
+}
+
+.react-ai-chatbox-typing span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.4;
+  animation: react-ai-chatbox-bounce 1.2s infinite ease-in-out;
+}
+
+.react-ai-chatbox-typing span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.react-ai-chatbox-typing span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes react-ai-chatbox-bounce {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.35;
+  }
+
+  30% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
+.react-ai-chatbox-copy-button {
+  opacity: 0;
+  transform: translateY(2px);
+  transition:
+    opacity 160ms ease,
+    transform 160ms ease,
+    background-color 160ms ease;
+}
+
+.react-ai-chatbox-message-group:hover .react-ai-chatbox-copy-button,
+.react-ai-chatbox-copy-button:focus-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.react-ai-chatbox-copy-button:hover {
+  filter: brightness(1.12);
+}
+
+@media (hover: none) {
+  .react-ai-chatbox-copy-button {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.react-ai-chatbox-message {
+  animation: react-ai-chatbox-message-in 220ms ease;
+}
+
+@keyframes react-ai-chatbox-message-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.react-ai-chatbox-send-button {
+  transition:
+    transform .15s ease,
+    filter .15s ease;
+}
+
+.react-ai-chatbox-send-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+}
+
+.react-ai-chatbox-send-button:active:not(:disabled) {
+  transform: scale(.97);
+}
+
+.react-ai-chatbox-textarea {
+  transition:
+    border-color .18s ease,
+    box-shadow .18s ease;
+}
+
+.react-ai-chatbox-textarea:focus {
+  border-color: #7c3aed !important;
+  box-shadow: 0 0 0 3px rgba(124,58,237,.18);
+}
+
+.react-ai-chatbox-markdown {
+  width: 100%;
+  min-width: 0;
+}
+
+.react-ai-chatbox-markdown > :first-child {
+  margin-top: 0;
+}
+
+.react-ai-chatbox-markdown > :last-child {
+  margin-bottom: 0;
+}
+
+.react-ai-chatbox-markdown p {
+  margin: 0 0 8px;
+}
+
+.react-ai-chatbox-markdown h1,
+.react-ai-chatbox-markdown h2,
+.react-ai-chatbox-markdown h3 {
+  margin: 12px 0 8px;
+  line-height: 1.25;
+}
+
+.react-ai-chatbox-markdown h1 {
+  font-size: 20px;
+}
+
+.react-ai-chatbox-markdown h2 {
+  font-size: 17px;
+}
+
+.react-ai-chatbox-markdown h3 {
+  font-size: 15px;
+}
+
+.react-ai-chatbox-markdown ul,
+.react-ai-chatbox-markdown ol {
+  margin: 8px 0;
+  padding-left: 22px;
+}
+
+.react-ai-chatbox-markdown li {
+  margin: 4px 0;
+}
+
+.react-ai-chatbox-markdown a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.react-ai-chatbox-markdown code {
+  padding: 2px 5px;
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.22);
+  font-family: Consolas, Monaco, monospace;
+  font-size: 0.9em;
+}
+
+.react-ai-chatbox-markdown pre {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  margin: 10px 0 0;
+  padding: 12px;
+  overflow-x: auto;
+  box-sizing: border-box;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.32);
+  white-space: pre;
+}
+
+.react-ai-chatbox-markdown pre code {
+  display: block;
+  padding: 0;
+  background: transparent;
+  white-space: pre;
+}
