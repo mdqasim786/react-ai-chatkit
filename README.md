@@ -1,18 +1,18 @@
-# react-ai-chatbox
+# react-ai-chatkit
 
-A reusable React chatbox component for AI assistants, SaaS applications, and chatbot interfaces.
+A reusable React chatkit component for AI assistants, SaaS applications, and chatbot interfaces.
 
 ## Installation
 
 ```bash
-npm install react-ai-chatbox
+npm install react-ai-chatkit
 ```
 
 ## Usage
 
 ```tsx
 import { useState } from "react";
-import { AIChatBox } from "react-ai-chatbox";
+import { AIChatBox } from "react-ai-chatkit";
 
 function App() {
   const [messages, setMessages] = useState([
@@ -48,8 +48,8 @@ export default App;
 
 | Prop | Type | Required | Description |
 |---|---|---:|---|
-| `title` | `string` | No | Chatbox heading |
-| `messages` | `Message[]` | Yes | Messages displayed in the chatbox |
+| `title` | `string` | No | Chatkit heading |
+| `messages` | `Message[]` | Yes | Messages displayed in the chatkit |
 | `placeholder` | `string` | No | Input placeholder |
 | `onSendMessage` | `(message: string) => void` | No | Called when a message is submitted |
 

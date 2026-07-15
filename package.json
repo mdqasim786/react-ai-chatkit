@@ -1,35 +1,10 @@
 {
-  "name": "react-ai-chatbox",
+  "name": "react-ai-chatkit",
   "version": "1.0.0",
-  "description": "A reusable React chatbox component for AI assistants, SaaS apps, and chatbot interfaces.",
+  "description": "A customizable React and TypeScript chat UI component for AI assistants, SaaS applications, and chatbot interfaces.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
-  "scripts": {
-    "build": "tsup && tsc --emitDeclarationOnly",
-    "dev": "tsup --watch"
-  },
-  "keywords": [
-    "react",
-    "chatbox",
-    "ai-chat",
-    "chat-ui",
-    "tailwind",
-    "nextjs",
-    "typescript",
-    "saas"
-  ],
-  "author": "Muhammad Qasim",
-  "license": "MIT",
-  "type": "commonjs",
-  "devDependencies": {
-    "@types/react": "^19.2.17",
-    "@types/react-dom": "^19.2.3",
-    "react": "^19.2.7",
-    "react-dom": "^19.2.7",
-    "tsup": "^8.5.1",
-    "typescript": "^7.0.2"
-  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -42,17 +17,57 @@
     "README.md",
     "LICENSE"
   ],
+  "scripts": {
+    "build": "tsup && tsc --emitDeclarationOnly",
+    "dev": "tsup --watch",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "react",
+    "react-component",
+    "ai-chat",
+    "ai-chatbox",
+    "chatbot",
+    "chat-ui",
+    "nextjs",
+    "typescript",
+    "saas",
+    "markdown",
+    "ai-interface"
+  ],
+  "author": {
+    "name": "Muhammad Qasim",
+    "url": "https://github.com/mdqasim786"
+  },
+  "license": "MIT",
+  "type": "commonjs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mdqasim786/react-ai-chatkit.git"
+  },
+  "homepage": "https://github.com/mdqasim786/react-ai-chatkit#readme",
+  "bugs": {
+    "url": "https://github.com/mdqasim786/react-ai-chatkit/issues"
+  },
   "peerDependencies": {
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0"
+  },
+  "dependencies": {
+    "react-markdown": "^10.1.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "tsup": "^8.5.1",
+    "typescript": "^7.0.2"
   },
   "sideEffects": [
     "**/*.css"
   ],
   "publishConfig": {
     "access": "public"
-  },
-  "dependencies": {
-    "react-markdown": "^10.1.0"
   }
 }

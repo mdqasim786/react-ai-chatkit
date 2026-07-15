@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "react": "^19.2.7",
-    "react-ai-chatbox": "file:..",
+    "react-ai-chatkit": "file:..",
     "react-dom": "^19.2.7"
   },
   "devDependencies": {

@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { AIChatBox } from "react-ai-chatbox";
-import type { Message } from "react-ai-chatbox";
+import { AIChatBox } from "react-ai-chatkit";
+import type { Message } from "react-ai-chatkit";
 
 function getCurrentTime() {
   return new Date().toLocaleTimeString([], {
