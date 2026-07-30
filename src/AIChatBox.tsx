@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import type { KeyboardEvent } from "react";
 import type { AIChatBoxProps } from "./types";
 import ReactMarkdown from "react-markdown";
+import MarkdownRenderer from "./components/MarkdownRenderer";
 
 export default function AIChatBox({
   title = "React AI Chatbox",
@@ -317,11 +318,10 @@ const handleKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
   {isUser ? (
     message.text
   ) : (
-    <div className="react-ai-chatbox-markdown">
-      <ReactMarkdown>
-        {message.text}
-      </ReactMarkdown>
-    </div>
+    <MarkdownRenderer
+    content={message.text}
+    isDark={isDark}
+/>
   )}
 </div>
 

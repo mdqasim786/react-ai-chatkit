@@ -38,13 +38,21 @@ function App() {
 
     window.setTimeout(() => {
       const aiMessage: Message = {
-        id: `${Date.now()}-ai`,
-        text: `You said: **${message}**
+  id: `${Date.now()}-ai`,
+  text: `You said: **${message}**
 
-This is a demo response from react-ai-chatbox.`,
-        sender: "ai",
-        timestamp: getCurrentTime(),
-      };
+Here is a TypeScript example:
+
+\`\`\`tsx
+function Button() {
+  return <button>Hello</button>;
+}
+\`\`\`
+
+This code should now be syntax highlighted.`,
+  sender: "ai",
+  timestamp: getCurrentTime(),
+};
 
       setMessages((previousMessages) => [
         ...previousMessages,
