@@ -76,6 +76,7 @@ This code should now be syntax highlighted.`,
       showTimestamps={true}
       showHeader={true}
       showSendButton={true}
+      showCopyButton={false}
       sendButtonText="Ask AI"
       emptyStateTitle="How can I help?"
       emptyStateDescription="Ask a question to start the conversation."

@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import type { TextareaHTMLAttributes } from "react";
 
 export type ChatTheme = "light" | "dark";
 
@@ -10,6 +11,8 @@ export interface Message {
 }
 
 export interface AIChatBoxProps {
+  showCopyButton?: boolean;
+  
   title?: string;
   messages: Message[];
   placeholder?: string;
@@ -35,6 +38,7 @@ export interface AIChatBoxProps {
   style?: CSSProperties;
 
   showTimestamps?: boolean;
+  inputProps?: TextareaHTMLAttributes<HTMLTextAreaElement>
 
   emptyStateTitle?: string;
   emptyStateDescription?: string;

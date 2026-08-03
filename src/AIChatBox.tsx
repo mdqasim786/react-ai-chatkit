@@ -3,6 +3,7 @@ import type { KeyboardEvent } from "react";
 import type { AIChatBoxProps } from "./types";
 import ReactMarkdown from "react-markdown";
 import MarkdownRenderer from "./components/MarkdownRenderer";
+import TypingIndicator from "./components/TypingIndicator";
 
 export default function AIChatBox({
   title = "React AI Chatbox",
@@ -14,6 +15,7 @@ export default function AIChatBox({
   showSendButton = true,
   showAvatars = true,
   showTimestamps = true,
+  showCopyButton = true,
   emptyStateTitle = "Start a conversation",
   emptyStateDescription = "Send a message to begin chatting.",
   aiAvatar,
@@ -24,10 +26,12 @@ export default function AIChatBox({
   height = "520px",
   disabled = false,
   isTyping = false,
+  inputProps,
   className,
   style,
 }: AIChatBoxProps) {
   const [input, setInput] = useState("");
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const [copiedMessageId, setCopiedMessageId] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
@@ -37,6 +41,18 @@ export default function AIChatBox({
     behavior: "smooth",
   });
 }, [messages, isTyping]);
+useEffect(() => {
+  const textarea = textareaRef.current;
+
+  if (!textarea) return;
+
+  textarea.style.height = "0px";
+
+  textarea.style.height = `${Math.min(
+    textarea.scrollHeight,
+    160
+  )}px`;
+}, [input]);
 
   const colors = {
     background: isDark ? "#111827" : "#ffffff",
@@ -325,6 +341,7 @@ const handleKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
   )}
 </div>
 
+{showCopyButton && (
   <button
     type="button"
     className="react-ai-chatbox-copy-button"
@@ -376,6 +393,7 @@ const handleKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
       </svg>
     )}
   </button>
+)}
 </div>
 
   {showTimestamps && message.timestamp && (
@@ -402,59 +420,48 @@ const handleKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
       display: "flex",
       alignItems: "flex-end",
       gap: "8px",
+      maxWidth: "90%",
     }}
   >
     {showAvatars && (
-      <div
-        aria-hidden="true"
-        style={{
-          width: "32px",
-          height: "32px",
-          borderRadius: "50%",
-          display: "grid",
-          placeItems: "center",
-          flexShrink: 0,
-          background: colors.aiBubble,
-          color: colors.text,
-          border: `1px solid ${colors.border}`,
-        }}
-      >
-        <svg
-          viewBox="0 0 24 24"
-          width="18"
-          height="18"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          aria-hidden="true"
+      aiAvatar ? (
+        <img
+          src={aiAvatar}
+          alt="AI avatar"
+          style={{
+            width: "32px",
+            height: "32px",
+            borderRadius: "50%",
+            objectFit: "cover",
+            flexShrink: 0,
+          }}
+        />
+      ) : (
+        <div
+          style={{
+            width: "32px",
+            height: "32px",
+            borderRadius: "50%",
+            display: "grid",
+            placeItems: "center",
+            background: colors.aiBubble,
+            color: colors.text,
+            border: `1px solid ${colors.border}`,
+          }}
         >
-          <rect x="4" y="7" width="16" height="12" rx="3" />
-          <path d="M9 3h6" />
-          <path d="M12 3v4" />
-          <circle cx="9" cy="13" r="1" fill="currentColor" />
-          <circle cx="15" cy="13" r="1" fill="currentColor" />
-          <path d="M9 16h6" />
-        </svg>
-      </div>
+          🤖
+        </div>
+      )
     )}
 
     <div
-      className="react-ai-chatbox-typing"
       style={{
-        display: "flex",
-        alignItems: "center",
-        gap: "4px",
-        padding: "12px 14px",
+        padding: "10px 14px",
         borderRadius: "14px",
         background: colors.aiBubble,
       }}
-      aria-label="AI is typing"
     >
-      <span />
-      <span />
-      <span />
+      <TypingIndicator isDark={isDark} />
     </div>
   </div>
 )}
@@ -472,7 +479,9 @@ const handleKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
   }}
 >
 <textarea
+  ref={textareaRef}
   className="react-ai-chatbox-textarea"
+  {...inputProps}
   value={input}
   disabled={disabled}
   placeholder={placeholder}
@@ -480,17 +489,18 @@ const handleKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
   rows={1}
   onChange={(event) => setInput(event.target.value)}
   onKeyDown={handleKeyDown}
+
   style={{
     flex: 1,
     minWidth: 0,
-    minHeight: "42px",
-    maxHeight: "110px",
+    resize: "none",
+    overflowY: "auto",
     padding: "10px 12px",
+    minHeight: "44px",
+    maxHeight: "160px",
     border: `1px solid ${colors.border}`,
     borderRadius: "10px",
     outline: "none",
-    resize: "none",
-    overflowY: "auto",
     boxSizing: "border-box",
     background: colors.inputBackground,
     color: colors.text,
