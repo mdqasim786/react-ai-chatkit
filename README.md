@@ -1,35 +1,40 @@
 # 🤖 React AI ChatKit
 
-> A customizable React and TypeScript chat UI component for AI assistants, SaaS applications, and chatbot interfaces.
+> A customizable React + TypeScript chat component for AI assistants, SaaS applications, internal tools, and chatbot interfaces.
 
 [![npm version](https://img.shields.io/npm/v/react-ai-chatkit)](https://www.npmjs.com/package/react-ai-chatkit)
 [![npm downloads](https://img.shields.io/npm/dm/react-ai-chatkit)](https://www.npmjs.com/package/react-ai-chatkit)
 [![License](https://img.shields.io/npm/l/react-ai-chatkit)](LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/mdqasim786/react-ai-chatkit?style=social)](https://github.com/mdqasim786/react-ai-chatkit)
 
 ---
 
 ## 📸 Preview
 
 <p align="center">
-  <img src="./assets/preview.png" alt="React AI ChatKit Preview" width="850" />
+  <img src="./assets/preview.png" alt="React AI ChatKit Preview" width="900" />
 </p>
+
+---
 
 ## ✨ Features
 
 - 🎨 Light & Dark themes
-- 🤖 AI and User avatars
-- 💬 Beautiful modern chat interface
-- ⌨️ Typing indicator
+- 🎨 Custom primary color
+- 🤖 AI & User avatars
+- 💬 Modern chat interface
+- 📝 Markdown rendering
+- 📄 Syntax highlighted code blocks
 - 📋 Copy message button
-- 📝 Markdown support
+- ⌨️ Animated typing indicator
 - ⏰ Message timestamps
-- 🎯 Fully customizable
 - 📱 Responsive design
-- ⚡ Built with React + TypeScript
+- ⚡ TypeScript support
+- 🎯 Highly customizable
 
 ---
 
-## 📦 Installation
+# 📦 Installation
 
 ```bash
 npm install react-ai-chatkit
@@ -47,7 +52,9 @@ or
 pnpm add react-ai-chatkit
 ```
 
-## 🚀 Quick Start
+---
+
+# 🚀 Quick Start
 
 ```tsx
 import { AIChatBox } from "react-ai-chatkit";
@@ -61,89 +68,96 @@ const messages: Message[] = [
   },
 ];
 
-<AIChatBox
-  messages={messages}
-  onSendMessage={(message) => console.log(message)}
-/>;
+export default function App() {
+  return (
+    <AIChatBox
+      messages={messages}
+      onSendMessage={(message) => console.log(message)}
+    />
+  );
+}
 ```
-## 💡 Why React AI ChatKit?
 
-React AI ChatKit helps you build modern AI chat interfaces without spending hours creating common chat features from scratch.
+---
 
-It comes with:
+# 💡 Why React AI ChatKit?
 
-- Modern UI
+Building AI chat interfaces from scratch means repeatedly implementing the same features:
+
 - Markdown rendering
-- Typing indicator
-- Copy message button
-- AI & User avatars
-- Responsive layout
-- TypeScript support
-- Customizable appearance
+- Code blocks
+- Copy buttons
+- Typing indicators
+- Responsive layouts
+- Theme support
+
+React AI ChatKit provides these out of the box so you can focus on your AI application instead of rebuilding chat UI.
 
 Perfect for:
 
 - AI SaaS products
-- Customer support bots
+- ChatGPT-style applications
 - Internal AI tools
+- Customer support bots
+- AI assistants
 - LLM interfaces
-- ChatGPT-like applications
 
-## ⚙️ Props
+---
+
+# ⚙️ Props
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| messages | Message[] | Required | Array of chat messages |
+| messages | Message[] | Required | Chat messages |
 | onSendMessage | (message: string) => void | Required | Called when a message is sent |
-| title | string | "React AI ChatKit" | Header title |
-| theme | "light" \| "dark" | "dark" | Chat theme |
-| primaryColor | string | "#7c3aed" | Primary accent color |
-| width | string | "450px" | Chat width |
-| height | string | "520px" | Chat height |
-| showHeader | boolean | true | Show header |
-| showSendButton | boolean | true | Show send button |
-| showAvatars | boolean | true | Show avatars |
-| showTimestamps | boolean | true | Show timestamps |
-| placeholder | string | "Type your message..." | Input placeholder |
-| disabled | boolean | false | Disable input |
-| isTyping | boolean | false | Show typing indicator |
+| title | string | `"React AI ChatKit"` | Header title |
+| theme | `"light"` \| `"dark"` | `"dark"` | Theme |
+| primaryColor | string | `#7c3aed` | Primary accent color |
+| width | string | `"450px"` | Component width |
+| height | string | `"520px"` | Component height |
+| placeholder | string | `"Type your message..."` | Input placeholder |
+| disabled | boolean | `false` | Disable input |
+| isTyping | boolean | `false` | Show typing indicator |
+| showHeader | boolean | `true` | Show header |
+| showAvatars | boolean | `true` | Show avatars |
+| showCopyButton | boolean | `true` | Show copy button |
+| showSendButton | boolean | `true` | Show send button |
+| showTimestamps | boolean | `true` | Show timestamps |
 
-## 🎨 Customization
+---
+
+# 🎨 Customization
 
 ```tsx
 <AIChatBox
+  title="AI Assistant"
   theme="dark"
   primaryColor="#6366f1"
   width="500px"
   height="600px"
+  showHeader
   showAvatars
+  showCopyButton
   showTimestamps
 />
 ```
 
-## 🛣️ Roadmap
+---
 
-- ✅ Chat UI
-- ✅ Markdown support
-- ✅ Typing indicator
-- ✅ Copy message button
-- ✅ Responsive design
-- 🔄 Syntax highlighting
-- 🔄 Streaming AI responses
-- 🔄 Theme presets
-- 🔄 File uploads
-- 🔄 Voice support
+# 📄 Markdown Example
 
-## 🤝 Contributing
+````tsx
+const aiMessage = {
+  sender: "ai",
+  text: `
+# Welcome
 
-Contributions, issues, and feature requests are welcome.
+Here is some code:
 
-If you find a bug or have an idea for improvement, feel free to open an issue or submit a pull request.
-
-If you like this project, consider giving it a ⭐ on GitHub.
-
-## 📄 License
-
-MIT © Muhammad Qasim
-
-[![GitHub stars](https://img.shields.io/github/stars/mdqasim786/react-ai-chatkit?style=social)](https://github.com/mdqasim786/react-ai-chatkit)
+\`\`\`tsx
+function Button() {
+  return <button>Hello</button>;
+}
+\`\`\`
+`,
+};
