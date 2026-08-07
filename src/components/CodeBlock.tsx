@@ -8,16 +8,12 @@ interface CodeBlockProps {
   isDark: boolean;
 }
 
-export default function CodeBlock({
-  code,
-  language,
-  isDark,
-}: CodeBlockProps) {
+export default function CodeBlock({ code, language, isDark }: CodeBlockProps) {
+  const label = language || "text";
 
-    console.log("CodeBlock rendered");
-    
   return (
     <div
+      className="react-ai-chatbox-code-block"
       style={{
         position: "relative",
         marginTop: "10px",
@@ -27,14 +23,16 @@ export default function CodeBlock({
         border: isDark ? "1px solid #374151" : "1px solid #d1d5db",
       }}
     >
-      {/* Header */}
       <div
+        className="react-ai-chatbox-code-header"
         style={{
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          padding: "8px 12px",
+          gap: "8px",
+          padding: "6px 8px 6px 12px",
           background: isDark ? "#1f2937" : "#f3f4f6",
+          borderBottom: isDark ? "1px solid #374151" : "1px solid #d1d5db",
         }}
       >
         <span
@@ -42,9 +40,10 @@ export default function CodeBlock({
             fontSize: "12px",
             fontWeight: 600,
             textTransform: "uppercase",
+            color: isDark ? "#9ca3af" : "#4b5563",
           }}
         >
-          {language || "text"}
+          {label}
         </span>
 
         <CopyButton text={code} />
@@ -56,7 +55,11 @@ export default function CodeBlock({
         customStyle={{
           margin: 0,
           borderRadius: 0,
-          fontSize: "14px",
+          fontSize: "13px",
+          maxWidth: "100%",
+          boxSizing: "border-box",
+          overflowX: "auto",
+          whiteSpace: "pre",
         }}
       >
         {code}

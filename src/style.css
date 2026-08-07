@@ -53,20 +53,20 @@
   box-sizing: border-box;
 }
 
-@media (max-width: 480px) {
-  .react-ai-chatbox-footer {
-    gap: 6px;
-    padding: 10px;
-  }
+/* ---------------------------------------------------------------------------
+ * Typing indicator
+ * ------------------------------------------------------------------------ */
 
-  .react-ai-chatbox-textarea {
-    font-size: 16px !important;
-  }
+.react-ai-chatbox-typing {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 2px;
 }
 
 .react-ai-chatbox-typing span {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: currentColor;
   opacity: 0.4;
@@ -95,17 +95,39 @@
   }
 }
 
+/* ---------------------------------------------------------------------------
+ * Buttons
+ * ------------------------------------------------------------------------ */
+
 .react-ai-chatbox-copy-button {
-  opacity: 0;
-  transform: translateY(2px);
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border-radius: 8px;
+  cursor: pointer;
   transition:
     opacity 160ms ease,
     transform 160ms ease,
-    background-color 160ms ease;
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease;
 }
 
-.react-ai-chatbox-message-group:hover .react-ai-chatbox-copy-button,
-.react-ai-chatbox-copy-button:focus-visible {
+.react-ai-chatbox-copy-button:focus-visible,
+.react-ai-chatbox-send-button:focus-visible,
+.react-ai-chatbox-code-copy-button:focus-visible {
+  outline: 2px solid #7c3aed;
+  outline-offset: 2px;
+}
+
+/* Message copy button: revealed on hover/focus of the message. */
+.react-ai-chatbox-message-copy-button {
+  opacity: 0;
+  transform: translateY(2px);
+}
+
+.react-ai-chatbox-message-group:hover .react-ai-chatbox-message-copy-button,
+.react-ai-chatbox-message-copy-button:focus-visible {
   opacity: 1;
   transform: translateY(0);
 }
@@ -114,12 +136,22 @@
   filter: brightness(1.12);
 }
 
+/* Code block copy button: always visible. */
+.react-ai-chatbox-code-copy-button {
+  opacity: 1;
+  transform: none;
+}
+
 @media (hover: none) {
-  .react-ai-chatbox-copy-button {
+  .react-ai-chatbox-message-copy-button {
     opacity: 1;
     transform: none;
   }
 }
+
+/* ---------------------------------------------------------------------------
+ * Messages
+ * ------------------------------------------------------------------------ */
 
 .react-ai-chatbox-message {
   animation: react-ai-chatbox-message-in 220ms ease;
@@ -128,7 +160,7 @@
 @keyframes react-ai-chatbox-message-in {
   from {
     opacity: 0;
-    transform: translateY(8px) scale(.98);
+    transform: translateY(8px) scale(0.98);
   }
 
   to {
@@ -139,8 +171,8 @@
 
 .react-ai-chatbox-send-button {
   transition:
-    transform .15s ease,
-    filter .15s ease;
+    transform 0.15s ease,
+    filter 0.15s ease;
 }
 
 .react-ai-chatbox-send-button:hover:not(:disabled) {
@@ -149,23 +181,29 @@
 }
 
 .react-ai-chatbox-send-button:active:not(:disabled) {
-  transform: scale(.97);
+  transform: scale(0.97);
 }
 
 .react-ai-chatbox-textarea {
   transition:
-    border-color .18s ease,
-    box-shadow .18s ease;
+    border-color 0.18s ease,
+    box-shadow 0.18s ease;
 }
 
 .react-ai-chatbox-textarea:focus {
   border-color: #7c3aed !important;
-  box-shadow: 0 0 0 3px rgba(124,58,237,.18);
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.18);
 }
+
+/* ---------------------------------------------------------------------------
+ * Markdown
+ * ------------------------------------------------------------------------ */
 
 .react-ai-chatbox-markdown {
   width: 100%;
   min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .react-ai-chatbox-markdown > :first-child {
@@ -182,9 +220,12 @@
 
 .react-ai-chatbox-markdown h1,
 .react-ai-chatbox-markdown h2,
-.react-ai-chatbox-markdown h3 {
-  margin: 12px 0 8px;
-  line-height: 1.25;
+.react-ai-chatbox-markdown h3,
+.react-ai-chatbox-markdown h4,
+.react-ai-chatbox-markdown h5,
+.react-ai-chatbox-markdown h6 {
+  margin: 14px 0 8px;
+  line-height: 1.3;
 }
 
 .react-ai-chatbox-markdown h1 {
@@ -199,6 +240,12 @@
   font-size: 15px;
 }
 
+.react-ai-chatbox-markdown h4,
+.react-ai-chatbox-markdown h5,
+.react-ai-chatbox-markdown h6 {
+  font-size: 14px;
+}
+
 .react-ai-chatbox-markdown ul,
 .react-ai-chatbox-markdown ol {
   margin: 8px 0;
@@ -209,10 +256,28 @@
   margin: 4px 0;
 }
 
+.react-ai-chatbox-markdown li > p {
+  margin: 4px 0;
+}
+
+.react-ai-chatbox-markdown blockquote {
+  margin: 8px 0;
+  padding: 4px 12px;
+  border-left: 3px solid #7c3aed;
+  opacity: 0.85;
+}
+
 .react-ai-chatbox-markdown a {
   color: inherit;
   text-decoration: underline;
   text-underline-offset: 2px;
+  overflow-wrap: anywhere;
+}
+
+.react-ai-chatbox-markdown a:focus-visible {
+  outline: 2px solid #7c3aed;
+  outline-offset: 2px;
+  border-radius: 2px;
 }
 
 .react-ai-chatbox-markdown code {
@@ -221,54 +286,58 @@
   background: rgba(0, 0, 0, 0.22);
   font-family: Consolas, Monaco, monospace;
   font-size: 0.9em;
+  overflow-wrap: anywhere;
 }
 
-.react-ai-chatbox-markdown pre {
-  display: block;
+/* ---------------------------------------------------------------------------
+ * Code blocks
+ * ------------------------------------------------------------------------ */
+
+.react-ai-chatbox-code-block {
   width: 100%;
   max-width: 100%;
-  margin: 10px 0 0;
-  padding: 12px;
+  min-width: 0;
+  margin: 10px 0;
+}
+
+.react-ai-chatbox-code-header {
+  min-width: 0;
+}
+
+.react-ai-chatbox-code-block pre {
+  max-width: 100%;
+  min-width: 0;
   overflow-x: auto;
-  box-sizing: border-box;
-  border-radius: 10px;
-  background: rgba(0, 0, 0, 0.32);
-  white-space: pre;
 }
 
-.react-ai-chatbox-markdown pre code {
-  display: block;
-  padding: 0;
-  background: transparent;
-  white-space: pre;
+.react-ai-chatbox-code-block pre::-webkit-scrollbar {
+  height: 8px;
 }
 
-@keyframes react-ai-chatbox-bounce {
-  0%,
-  80%,
-  100% {
-    transform: scale(0.5);
-    opacity: 0.4;
-  }
-
-  40% {
-    transform: scale(1);
-    opacity: 1;
-  }
+.react-ai-chatbox-code-block pre::-webkit-scrollbar-thumb {
+  background: rgba(124, 58, 237, 0.5);
+  border-radius: 999px;
 }
 
-@keyframes react-ai-chatbox-message-enter {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
+/* ---------------------------------------------------------------------------
+ * Mobile
+ * ------------------------------------------------------------------------ */
+
+@media (max-width: 480px) {
+  .react-ai-chatbox-footer {
+    gap: 6px;
+    padding: 10px;
   }
 
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  .react-ai-chatbox-textarea {
+    font-size: 16px !important;
   }
-}
 
-.react-ai-chatbox-message {
-  animation: react-ai-chatbox-message-enter 420ms ease-out;
+  .react-ai-chatbox-messages {
+    padding: 12px;
+  }
+
+  .react-ai-chatbox-code-block {
+    margin: 8px 0;
+  }
 }
