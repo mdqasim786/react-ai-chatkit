@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { copyToClipboard } from "../utils";
+import { CheckIcon, CopyIcon } from "./Icons";
 
 interface CopyButtonProps {
   text: string;
@@ -53,36 +54,7 @@ export default function CopyButton({ text }: CopyButtonProps) {
         borderColor: copied ? "#10b981" : undefined,
       }}
     >
-      {copied ? (
-        <svg
-          viewBox="0 0 24 24"
-          width="15"
-          height="15"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          aria-hidden="true"
-        >
-          <path d="m5 12 4 4L19 6" />
-        </svg>
-      ) : (
-        <svg
-          viewBox="0 0 24 24"
-          width="15"
-          height="15"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          aria-hidden="true"
-        >
-          <rect x="9" y="9" width="10" height="10" rx="2" />
-          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-        </svg>
-      )}
+      {copied ? <CheckIcon /> : <CopyIcon />}
     </button>
   );
 }

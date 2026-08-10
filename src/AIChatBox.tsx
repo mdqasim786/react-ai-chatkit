@@ -1,18 +1,27 @@
 import { useEffect, useRef, useState } from "react";
 import type { ChangeEvent, KeyboardEvent } from "react";
 import type { AIChatBoxProps } from "./types";
+import { getChatColors } from "./theme";
+import Avatar from "./components/Avatar";
 import MarkdownRenderer from "./components/MarkdownRenderer";
+import MessageActions from "./components/MessageActions";
 import TypingIndicator from "./components/TypingIndicator";
+import { RobotIcon, UserIcon } from "./components/Icons";
 import { copyToClipboard } from "./utils";
 
 const COPY_FEEDBACK_MS = 2000;
 
 export default function AIChatBox({
   title = "React AI Chatbox",
+  subtitle,
+  header,
+  headerActions,
   messages,
   placeholder = "Type your message...",
   onSendMessage,
   sendButtonText = "Ask AI",
+  sendButtonContent,
+  isSending = false,
   showHeader = true,
   showSendButton = true,
   showAvatars = true,
@@ -20,8 +29,15 @@ export default function AIChatBox({
   showCopyButton = true,
   emptyStateTitle = "Start a conversation",
   emptyStateDescription = "Send a message to begin chatting.",
+  emptyStateContent,
   aiAvatar,
   userAvatar,
+  aiAvatarFallback,
+  userAvatarFallback,
+  aiMessageClassName,
+  aiMessageStyle,
+  userMessageClassName,
+  userMessageStyle,
   theme = "dark",
   primaryColor = "#7c3aed",
   width = "450px",
@@ -29,6 +45,12 @@ export default function AIChatBox({
   disabled = false,
   isTyping = false,
   inputProps,
+  inputClassName,
+  inputStyle,
+  inputContainerClassName,
+  inputContainerStyle,
+  maxInputLength,
+  timestampFormatter,
   className,
   style,
 }: AIChatBoxProps) {
@@ -39,6 +61,7 @@ export default function AIChatBox({
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   const isDark = theme === "dark";
+  const colors = getChatColors(theme);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({
@@ -67,19 +90,10 @@ export default function AIChatBox({
     };
   }, []);
 
-  const colors = {
-    background: isDark ? "#111827" : "#ffffff",
-    text: isDark ? "#f9fafb" : "#111827",
-    border: isDark ? "#374151" : "#e5e7eb",
-    aiBubble: isDark ? "#374151" : "#f3f4f6",
-    inputBackground: isDark ? "#1f2937" : "#ffffff",
-    mutedText: isDark ? "#9ca3af" : "#6b7280",
-  };
-
   const handleSend = () => {
     const message = input.trim();
 
-    if (!message || disabled) return;
+    if (!message || disabled || isSending) return;
 
     onSendMessage?.(message);
     setInput("");
@@ -119,7 +133,7 @@ export default function AIChatBox({
     }
   };
 
-  const cannotSend = disabled || !input.trim();
+  const cannotSend = disabled || isSending || !input.trim();
 
   return (
     <div
@@ -144,14 +158,63 @@ export default function AIChatBox({
     >
       {showHeader && (
         <header
+          className="react-ai-chatbox-header"
           style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "12px",
             padding: "16px",
             borderBottom: `1px solid ${colors.border}`,
-            fontSize: "16px",
-            fontWeight: 700,
+            minWidth: 0,
           }}
         >
-          {title}
+          {header ? (
+            <div style={{ minWidth: 0, width: "100%" }}>{header}</div>
+          ) : (
+            <>
+              <div style={{ minWidth: 0 }}>
+                <div
+                  className="react-ai-chatbox-header-title"
+                  style={{
+                    fontSize: "16px",
+                    fontWeight: 700,
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {title}
+                </div>
+                {subtitle && (
+                  <div
+                    className="react-ai-chatbox-header-subtitle"
+                    style={{
+                      fontSize: "12px",
+                      fontWeight: 400,
+                      color: colors.mutedText,
+                      marginTop: "2px",
+                    }}
+                  >
+                    {subtitle}
+                  </div>
+                )}
+              </div>
+              {headerActions && (
+                <div
+                  className="react-ai-chatbox-header-actions"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "8px",
+                    flexShrink: 0,
+                  }}
+                >
+                  {headerActions}
+                </div>
+              )}
+            </>
+          )}
         </header>
       )}
 
@@ -172,82 +235,76 @@ export default function AIChatBox({
       >
         {messages.length === 0 && !isTyping && (
           <div
+            className="react-ai-chatbox-empty-state"
             style={{
               flex: 1,
               display: "grid",
               placeItems: "center",
               textAlign: "center",
               padding: "24px",
+              minWidth: 0,
             }}
           >
-            <div>
-              <div
-                style={{
-                  width: "48px",
-                  height: "48px",
-                  margin: "0 auto 12px",
-                  display: "grid",
-                  placeItems: "center",
-                  borderRadius: "50%",
-                  background: colors.aiBubble,
-                  color: colors.text,
-                  border: `1px solid ${colors.border}`,
-                }}
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  width="22"
-                  height="22"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
+            {emptyStateContent ? (
+              emptyStateContent
+            ) : (
+              <div>
+                <div
+                  style={{
+                    width: "48px",
+                    height: "48px",
+                    margin: "0 auto 12px",
+                    display: "grid",
+                    placeItems: "center",
+                    borderRadius: "50%",
+                    background: colors.aiBubble,
+                    color: colors.text,
+                    border: `1px solid ${colors.border}`,
+                  }}
                 >
-                  <rect x="4" y="7" width="16" height="12" rx="3" />
-                  <path d="M9 3h6" />
-                  <path d="M12 3v4" />
-                  <circle cx="9" cy="13" r="1" fill="currentColor" />
-                  <circle cx="15" cy="13" r="1" fill="currentColor" />
-                  <path d="M9 16h6" />
-                </svg>
-              </div>
+                  <RobotIcon size={22} />
+                </div>
 
-              <div
-                style={{
-                  fontSize: "15px",
-                  fontWeight: 700,
-                  marginBottom: "6px",
-                }}
-              >
-                {emptyStateTitle}
-              </div>
+                <div
+                  style={{
+                    fontSize: "15px",
+                    fontWeight: 700,
+                    marginBottom: "6px",
+                  }}
+                >
+                  {emptyStateTitle}
+                </div>
 
-              <div
-                style={{
-                  maxWidth: "240px",
-                  fontSize: "13px",
-                  lineHeight: 1.5,
-                  color: colors.mutedText,
-                }}
-              >
-                {emptyStateDescription}
+                <div
+                  style={{
+                    maxWidth: "240px",
+                    fontSize: "13px",
+                    lineHeight: 1.5,
+                    color: colors.mutedText,
+                  }}
+                >
+                  {emptyStateDescription}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         )}
 
         {messages.map((message) => {
           const isUser = message.sender === "user";
-          const avatar = isUser ? userAvatar : aiAvatar;
           const isCopied = copiedMessageId === message.id;
           const copyLabel = isCopied ? "Copied" : "Copy message";
+          const messageClassName = isUser
+            ? userMessageClassName
+            : aiMessageClassName;
+          const messageStyle = isUser ? userMessageStyle : aiMessageStyle;
 
           return (
             <div
               key={message.id}
-              className="react-ai-chatbox-message"
+              className={["react-ai-chatbox-message", messageClassName]
+                .filter(Boolean)
+                .join(" ")}
               style={{
                 alignSelf: isUser ? "flex-end" : "flex-start",
                 display: "flex",
@@ -256,75 +313,22 @@ export default function AIChatBox({
                 gap: "8px",
                 maxWidth: "100%",
                 minWidth: 0,
+                ...messageStyle,
               }}
             >
               {showAvatars && (
-                avatar ? (
-                  <img
-                    src={avatar}
-                    alt={isUser ? "User avatar" : "AI avatar"}
-                    style={{
-                      width: "32px",
-                      height: "32px",
-                      borderRadius: "50%",
-                      objectFit: "cover",
-                      flexShrink: 0,
-                    }}
-                  />
-                ) : (
-                  <div
-                    aria-hidden="true"
-                    style={{
-                      width: "32px",
-                      height: "32px",
-                      borderRadius: "50%",
-                      display: "grid",
-                      placeItems: "center",
-                      flexShrink: 0,
-                      background: isUser ? primaryColor : colors.aiBubble,
-                      color: isUser ? "#ffffff" : colors.text,
-                      fontSize: "11px",
-                      fontWeight: 700,
-                      border: `1px solid ${colors.border}`,
-                    }}
-                  >
-                    {isUser ? (
-                      <svg
-                        viewBox="0 0 24 24"
-                        width="18"
-                        height="18"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        aria-hidden="true"
-                      >
-                        <path d="M20 21a8 8 0 0 0-16 0" />
-                        <circle cx="12" cy="7" r="4" />
-                      </svg>
-                    ) : (
-                      <svg
-                        viewBox="0 0 24 24"
-                        width="18"
-                        height="18"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        aria-hidden="true"
-                      >
-                        <rect x="4" y="7" width="16" height="12" rx="3" />
-                        <path d="M9 3h6" />
-                        <path d="M12 3v4" />
-                        <circle cx="9" cy="13" r="1" fill="currentColor" />
-                        <circle cx="15" cy="13" r="1" fill="currentColor" />
-                        <path d="M9 16h6" />
-                      </svg>
-                    )}
-                  </div>
-                )
+                <Avatar
+                  src={isUser ? userAvatar : aiAvatar}
+                  alt={isUser ? "User avatar" : "AI avatar"}
+                  fallback={
+                    isUser
+                      ? (userAvatarFallback ?? <UserIcon />)
+                      : (aiAvatarFallback ?? <RobotIcon />)
+                  }
+                  background={isUser ? primaryColor : colors.aiBubble}
+                  color={isUser ? "#ffffff" : colors.text}
+                  border={colors.border}
+                />
               )}
 
               <div
@@ -376,60 +380,12 @@ export default function AIChatBox({
                   </div>
 
                   {showCopyButton && (
-                    <button
-                      type="button"
-                      className="react-ai-chatbox-copy-button react-ai-chatbox-message-copy-button"
-                      aria-label={copyLabel}
-                      aria-live="polite"
-                      title={copyLabel}
-                      onClick={() => handleCopyMessage(message.id, message.text)}
-                      style={{
-                        width: "28px",
-                        height: "28px",
-                        display: "grid",
-                        placeItems: "center",
-                        flexShrink: 0,
-                        padding: 0,
-                        border: `1px solid ${isCopied ? "#10b981" : colors.border}`,
-                        borderRadius: "8px",
-                        background: isCopied
-                          ? "rgba(16,185,129,0.15)"
-                          : colors.inputBackground,
-                        color: isCopied ? "#10b981" : colors.mutedText,
-                        cursor: "pointer",
-                      }}
-                    >
-                      {isCopied ? (
-                        <svg
-                          viewBox="0 0 24 24"
-                          width="15"
-                          height="15"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          aria-hidden="true"
-                        >
-                          <path d="m5 12 4 4L19 6" />
-                        </svg>
-                      ) : (
-                        <svg
-                          viewBox="0 0 24 24"
-                          width="15"
-                          height="15"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          aria-hidden="true"
-                        >
-                          <rect x="9" y="9" width="10" height="10" rx="2" />
-                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-                        </svg>
-                      )}
-                    </button>
+                    <MessageActions
+                      copied={isCopied}
+                      copyLabel={copyLabel}
+                      colors={colors}
+                      onCopy={() => handleCopyMessage(message.id, message.text)}
+                    />
                   )}
                 </div>
 
@@ -442,7 +398,9 @@ export default function AIChatBox({
                       marginTop: "2px",
                     }}
                   >
-                    {message.timestamp}
+                    {timestampFormatter
+                      ? timestampFormatter(message.timestamp)
+                      : message.timestamp}
                   </span>
                 )}
               </div>
@@ -462,35 +420,14 @@ export default function AIChatBox({
             }}
           >
             {showAvatars && (
-              aiAvatar ? (
-                <img
-                  src={aiAvatar}
-                  alt="AI avatar"
-                  style={{
-                    width: "32px",
-                    height: "32px",
-                    borderRadius: "50%",
-                    objectFit: "cover",
-                    flexShrink: 0,
-                  }}
-                />
-              ) : (
-                <div
-                  aria-hidden="true"
-                  style={{
-                    width: "32px",
-                    height: "32px",
-                    borderRadius: "50%",
-                    display: "grid",
-                    placeItems: "center",
-                    background: colors.aiBubble,
-                    color: colors.text,
-                    border: `1px solid ${colors.border}`,
-                  }}
-                >
-                  🤖
-                </div>
-              )
+              <Avatar
+                src={aiAvatar}
+                alt="AI avatar"
+                fallback={aiAvatarFallback ?? <RobotIcon />}
+                background={colors.aiBubble}
+                color={colors.text}
+                border={colors.border}
+              />
             )}
 
             <div
@@ -508,7 +445,9 @@ export default function AIChatBox({
       </div>
 
       <div
-        className="react-ai-chatbox-footer"
+        className={["react-ai-chatbox-footer", inputContainerClassName]
+          .filter(Boolean)
+          .join(" ")}
         style={{
           display: "flex",
           alignItems: "flex-end",
@@ -516,17 +455,21 @@ export default function AIChatBox({
           padding: "12px",
           borderTop: `1px solid ${colors.border}`,
           minWidth: 0,
+          ...inputContainerStyle,
         }}
       >
         <textarea
           ref={textareaRef}
-          className="react-ai-chatbox-textarea"
+          className={["react-ai-chatbox-textarea", inputClassName]
+            .filter(Boolean)
+            .join(" ")}
           {...inputProps}
           value={input}
           disabled={disabled}
           placeholder={placeholder}
           aria-label={placeholder}
           rows={1}
+          maxLength={maxInputLength}
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
           style={{
@@ -546,6 +489,7 @@ export default function AIChatBox({
             fontFamily: "inherit",
             fontSize: "14px",
             lineHeight: 1.4,
+            ...inputStyle,
           }}
         />
 
@@ -556,6 +500,13 @@ export default function AIChatBox({
             disabled={cannotSend}
             onClick={handleSend}
             title={sendButtonText}
+            aria-label={
+              isSending
+                ? "Sending..."
+                : sendButtonContent
+                  ? sendButtonText
+                  : undefined
+            }
             style={{
               padding: "10px 14px",
               border: "none",
@@ -568,7 +519,14 @@ export default function AIChatBox({
               flexShrink: 0,
             }}
           >
-            {sendButtonText}
+            {isSending ? (
+              <span
+                className="react-ai-chatbox-send-spinner"
+                aria-hidden="true"
+              />
+            ) : (
+              sendButtonContent ?? sendButtonText
+            )}
           </button>
         )}
       </div>
