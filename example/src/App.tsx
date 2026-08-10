@@ -13,7 +13,7 @@ const welcomeMessage: Message = {
   id: "1",
   text: `# Welcome to React AI ChatKit
 
-This box renders **Markdown**, syntax-highlighted code blocks, lists and more.
+This box renders **Markdown**, syntax-highlighted code blocks and tables.
 
 Here is a **TypeScript** example:
 
@@ -23,25 +23,16 @@ function Button({ label }: { label: string }) {
 }
 \`\`\`
 
-And a **CSS** example:
+And a small table:
 
-\`\`\`css
-.button {
-  color: white;
-  background: #7c3aed;
-  border-radius: 8px;
-}
-\`\`\`
+| Feature   | Status |
+| --------- | ------ |
+| Markdown  | ✅     |
+| Copy      | ✅     |
 
-Try these features:
+> Tip: press **Enter** to send, **Shift + Enter** for a new line.
 
-- Send a message with **Enter** (Shift + Enter for a new line)
-- Copy a message or a code block with the **copy** button
-- Switch between **dark** and **light** themes
-
-> Tip: keep the messages short to see the typing indicator.
-
-Long URLs wrap cleanly: https://github.com/mdqasim786/react-ai-chatkit/blob/main/README.md?tab=readme-ov-file#readme`,
+Try switching the theme with the button in the header.`,
   sender: "ai",
   timestamp: getCurrentTime(),
 };
@@ -59,11 +50,7 @@ function App() {
       timestamp: getCurrentTime(),
     };
 
-    setMessages((previousMessages) => [
-      ...previousMessages,
-      userMessage,
-    ]);
-
+    setMessages((previousMessages) => [...previousMessages, userMessage]);
     setIsTyping(true);
 
     window.setTimeout(() => {
@@ -71,68 +58,82 @@ function App() {
         id: `${Date.now()}-ai`,
         text: `You said: **${message}**
 
-Here is a JavaScript example:
-
 \`\`\`js
 console.log("Hello from the chat!");
 \`\`\`
 
-Some **highlights** of this release:
-
-1. Copy feedback with a check icon
-2. Accessible buttons and labels
-3. Responsive layout for small screens
-
-> The typing indicator animates while the AI is "thinking".`,
+- Copy this message or the code block
+- Watch the typing indicator and the send button spinner`,
         sender: "ai",
         timestamp: getCurrentTime(),
       };
 
-      setMessages((previousMessages) => [
-        ...previousMessages,
-        aiMessage,
-      ]);
-
+      setMessages((previousMessages) => [...previousMessages, aiMessage]);
       setIsTyping(false);
     }, 1500);
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "16px", alignItems: "center" }}>
-      <button
-        type="button"
-        onClick={() => setTheme((current) => (current === "dark" ? "light" : "dark"))}
-        style={{
-          padding: "8px 16px",
-          borderRadius: "8px",
-          border: "1px solid #d1d5db",
-          cursor: "pointer",
-          background: "#f3f4f6",
-          fontWeight: 600,
-        }}
-      >
-        Switch to {theme === "dark" ? "light" : "dark"} theme
-      </button>
-
-      <AIChatBox
-        title="React AI Chatbox"
-        messages={messages}
-        theme={theme}
-        primaryColor="#7c3aed"
-        width="450px"
-        height="520px"
-        isTyping={isTyping}
-        showAvatars={true}
-        showTimestamps={true}
-        showHeader={true}
-        showSendButton={true}
-        showCopyButton={true}
-        sendButtonText="Ask AI"
-        emptyStateTitle="How can I help?"
-        emptyStateDescription="Ask a question to start the conversation."
-        onSendMessage={handleSendMessage}
-      />
-    </div>
+    <AIChatBox
+      title="React AI Chatbox"
+      subtitle="Customization demo"
+      messages={messages}
+      theme={theme}
+      primaryColor={theme === "dark" ? "#8b5cf6" : "#7c3aed"}
+      width="450px"
+      height="540px"
+      isTyping={isTyping}
+      isSending={isTyping}
+      showAvatars
+      showTimestamps
+      showHeader
+      showSendButton
+      showCopyButton
+      aiAvatarFallback={<span>🤖</span>}
+      userAvatarFallback={<span>🙂</span>}
+      emptyStateTitle="How can I help?"
+      emptyStateDescription="Ask a question to start the conversation."
+      placeholder="Type a message (max 200)..."
+      maxInputLength={200}
+      sendButtonText="Send"
+      sendButtonContent={
+        <svg
+          viewBox="0 0 24 24"
+          width="16"
+          height="16"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M22 2 11 13" />
+          <path d="M22 2 15 22l-4-9-9-4z" />
+        </svg>
+      }
+      headerActions={
+        <button
+          type="button"
+          onClick={() =>
+            setTheme((current) => (current === "dark" ? "light" : "dark"))
+          }
+          style={{
+            padding: "6px 10px",
+            borderRadius: "8px",
+            border: "1px solid rgba(128,128,128,0.4)",
+            cursor: "pointer",
+            fontSize: "12px",
+            fontWeight: 600,
+            background: "transparent",
+            color: "inherit",
+          }}
+        >
+          {theme === "dark" ? "Light" : "Dark"}
+        </button>
+      }
+      onSendMessage={handleSendMessage}
+    />
   );
 }
 
