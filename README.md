@@ -112,7 +112,8 @@ export default function App() {
       emptyStateTitle="How can I help?"
       emptyStateDescription="Ask me anything."
       placeholder="Type your message..."
-      maxInputLength={500}
+      maxLength={500}
+      autoFocus
       sendButtonText="Send"
       timestampFormatter={(timestamp) => `at ${timestamp}`}
     />
@@ -197,7 +198,9 @@ export default function App() {
 | inputStyle | `React.CSSProperties` | `undefined` | Style added to the textarea |
 | inputContainerClassName | `string` | `undefined` | Class added to the input container (footer) |
 | inputContainerStyle | `React.CSSProperties` | `undefined` | Style added to the input container (footer) |
-| maxInputLength | `number` | `undefined` | Maximum input length |
+| maxInputLength | `number` | `undefined` | Maximum input length (deprecated alias of `maxLength`) |
+| maxLength | `number` | `undefined` | Maximum input length; prevents typing beyond the limit |
+| autoFocus | `boolean` | `false` | Focus the textarea automatically on initial render |
 | className | `string` | `undefined` | Class added to the component root |
 | style | `React.CSSProperties` | `undefined` | Style added to the component root |
 

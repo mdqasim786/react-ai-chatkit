@@ -57,6 +57,8 @@ export interface AIChatBoxProps {
   inputContainerClassName?: string;
   inputContainerStyle?: CSSProperties;
   maxInputLength?: number;
+  maxLength?: number;
+  autoFocus?: boolean;
 
   emptyStateTitle?: string;
   emptyStateDescription?: string;

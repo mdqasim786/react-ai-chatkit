@@ -50,6 +50,8 @@ export default function AIChatBox({
   inputContainerClassName,
   inputContainerStyle,
   maxInputLength,
+  maxLength,
+  autoFocus = false,
   timestampFormatter,
   className,
   style,
@@ -58,13 +60,18 @@ export default function AIChatBox({
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const [copiedMessageId, setCopiedMessageId] = useState<string | null>(null);
   const copyTimerRef = useRef<number | null>(null);
-  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const messagesContainerRef = useRef<HTMLDivElement | null>(null);
 
   const isDark = theme === "dark";
   const colors = getChatColors(theme);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({
+    const container = messagesContainerRef.current;
+
+    if (!container) return;
+
+    container.scrollTo({
+      top: container.scrollHeight,
       behavior: "smooth",
     });
   }, [messages, isTyping]);
@@ -93,7 +100,7 @@ export default function AIChatBox({
   const handleSend = () => {
     const message = input.trim();
 
-    if (!message || disabled || isSending) return;
+    if (!message || disabled || isSending || isTyping) return;
 
     onSendMessage?.(message);
     setInput("");
@@ -133,7 +140,8 @@ export default function AIChatBox({
     }
   };
 
-  const cannotSend = disabled || isSending || !input.trim();
+  const cannotSend = disabled || isSending || isTyping || !input.trim();
+  const isBusy = disabled || isTyping;
 
   return (
     <div
@@ -219,6 +227,7 @@ export default function AIChatBox({
       )}
 
       <div
+        ref={messagesContainerRef}
         className="react-ai-chatbox-messages"
         role="log"
         aria-live="polite"
@@ -293,7 +302,7 @@ export default function AIChatBox({
         {messages.map((message) => {
           const isUser = message.sender === "user";
           const isCopied = copiedMessageId === message.id;
-          const copyLabel = isCopied ? "Copied" : "Copy message";
+          const copyLabel = isCopied ? "Copied!" : "Copy";
           const messageClassName = isUser
             ? userMessageClassName
             : aiMessageClassName;
@@ -441,7 +450,7 @@ export default function AIChatBox({
             </div>
           </div>
         )}
-        <div ref={messagesEndRef} />
+        <div />
       </div>
 
       <div
@@ -465,11 +474,12 @@ export default function AIChatBox({
             .join(" ")}
           {...inputProps}
           value={input}
-          disabled={disabled}
+          autoFocus={autoFocus}
+          disabled={isBusy}
           placeholder={placeholder}
           aria-label={placeholder}
           rows={1}
-          maxLength={maxInputLength}
+          maxLength={maxLength ?? maxInputLength}
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
           style={{
@@ -489,6 +499,8 @@ export default function AIChatBox({
             fontFamily: "inherit",
             fontSize: "14px",
             lineHeight: 1.4,
+            cursor: isBusy ? "not-allowed" : "text",
+            opacity: isBusy ? 0.6 : 1,
             ...inputStyle,
           }}
         />

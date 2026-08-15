@@ -89,12 +89,13 @@ console.log("Hello from the chat!");
       showHeader
       showSendButton
       showCopyButton
+      autoFocus
       aiAvatarFallback={<span>🤖</span>}
       userAvatarFallback={<span>🙂</span>}
       emptyStateTitle="How can I help?"
       emptyStateDescription="Ask a question to start the conversation."
       placeholder="Type a message (max 200)..."
-      maxInputLength={200}
+      maxLength={200}
       sendButtonText="Send"
       sendButtonContent={
         <svg
