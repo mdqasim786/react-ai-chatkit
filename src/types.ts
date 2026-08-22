@@ -1,5 +1,4 @@
-import type { CSSProperties, ReactNode } from "react";
-import type { TextareaHTMLAttributes } from "react";
+import type { CSSProperties, ReactNode, TextareaHTMLAttributes } from "react";
 
 export type ChatTheme = "light" | "dark";
 

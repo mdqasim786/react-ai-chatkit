@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { ReactNode } from "react";
 
 interface AvatarProps {
@@ -19,6 +20,9 @@ export default function Avatar({
   border,
   size = 32,
 }: AvatarProps) {
+  const [imgFailed, setImgFailed] = useState(false);
+  const showFallback = !src || imgFailed;
+
   const baseStyle = {
     width: `${size}px`,
     height: `${size}px`,
@@ -26,8 +30,15 @@ export default function Avatar({
     flexShrink: 0,
   } as const;
 
-  if (src) {
-    return <img src={src} alt={alt} style={{ ...baseStyle, objectFit: "cover" }} />;
+  if (!showFallback) {
+    return (
+      <img
+        src={src}
+        alt={alt}
+        onError={() => setImgFailed(true)}
+        style={{ ...baseStyle, objectFit: "cover" }}
+      />
+    );
   }
 
   return (

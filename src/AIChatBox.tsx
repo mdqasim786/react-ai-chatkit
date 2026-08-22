@@ -450,7 +450,6 @@ export default function AIChatBox({
             </div>
           </div>
         )}
-        <div />
       </div>
 
       <div
