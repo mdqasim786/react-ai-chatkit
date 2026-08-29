@@ -22,6 +22,7 @@ export interface AIChatBoxProps {
 
   sendButtonText?: string;
   sendButtonContent?: ReactNode;
+  sendButtonLabel?: string;
   isSending?: boolean;
   showHeader?: boolean;
   showSendButton?: boolean;

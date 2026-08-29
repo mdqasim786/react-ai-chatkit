@@ -21,6 +21,7 @@ export default function AIChatBox({
   onSendMessage,
   sendButtonText = "Ask AI",
   sendButtonContent,
+  sendButtonLabel = "Send",
   isSending = false,
   showHeader = true,
   showSendButton = true,
@@ -510,14 +511,8 @@ export default function AIChatBox({
             className="react-ai-chatbox-send-button"
             disabled={cannotSend}
             onClick={handleSend}
-            title={sendButtonText}
-            aria-label={
-              isSending
-                ? "Sending..."
-                : sendButtonContent
-                  ? sendButtonText
-                  : undefined
-            }
+            title={sendButtonLabel}
+            aria-label={isSending ? "Sending..." : sendButtonLabel}
             style={{
               padding: "10px 14px",
               border: "none",

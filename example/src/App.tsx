@@ -97,6 +97,7 @@ console.log("Hello from the chat!");
       placeholder="Type a message (max 200)..."
       maxLength={200}
       sendButtonText="Send"
+      sendButtonLabel="Send message"
       sendButtonContent={
         <svg
           viewBox="0 0 24 24"

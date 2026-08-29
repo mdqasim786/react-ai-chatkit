@@ -143,6 +143,19 @@ export default function App() {
 />
 ```
 
+### Placeholder and send button label
+
+```tsx
+<AIChatBox
+  messages={messages}
+  onSendMessage={handleSend}
+  placeholder="Ask me anything..."
+  sendButtonLabel="Submit message"
+/>
+```
+
+`placeholder` customizes the textarea placeholder and `sendButtonLabel` sets the send button's accessible label/title without changing its visual content.
+
 ### Typing / sending state
 
 ```tsx
@@ -188,6 +201,7 @@ export default function App() {
 | showSendButton | `boolean` | `true` | Show the send button |
 | sendButtonText | `string` | `"Ask AI"` | Send button text (and accessible label for custom content) |
 | sendButtonContent | `ReactNode` | `undefined` | Custom send button content/icon |
+| sendButtonLabel | `string` | `"Send"` | Accessible label (`title`/`aria-label`) of the send button |
 | showTimestamps | `boolean` | `true` | Show timestamps |
 | timestampFormatter | `(timestamp: string) => string` | `undefined` | Format the rendered timestamp |
 | emptyStateTitle | `string` | `"Start a conversation"` | Empty state title |
