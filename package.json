@@ -1,6 +1,6 @@
 {
   "name": "react-ai-chatkit",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "A customizable React and TypeScript chat UI component for AI assistants, SaaS applications, and chatbot interfaces.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
