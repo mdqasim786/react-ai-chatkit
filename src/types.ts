@@ -47,6 +47,7 @@ export interface AIChatBoxProps {
   isTyping?: boolean;
 
   className?: string;
+  containerClassName?: string;
   style?: CSSProperties;
 
   showTimestamps?: boolean;
@@ -56,6 +57,8 @@ export interface AIChatBoxProps {
   inputStyle?: CSSProperties;
   inputContainerClassName?: string;
   inputContainerStyle?: CSSProperties;
+  messageListClassName?: string;
+  sendButtonClassName?: string;
   maxInputLength?: number;
   maxLength?: number;
   autoFocus?: boolean;

@@ -143,6 +143,21 @@ export default function App() {
 />
 ```
 
+### Custom class names
+
+```tsx
+<AIChatBox
+  messages={messages}
+  onSendMessage={handleSend}
+  containerClassName="my-chat-wrapper"
+  messageListClassName="my-chat-messages"
+  inputClassName="my-chat-input"
+  sendButtonClassName="my-chat-send"
+/>
+```
+
+Each prop is merged with the built-in class on the same element, so existing styling is preserved and you can layer your own CSS on top. `containerClassName` targets the root chat container, `messageListClassName` the scrollable messages area, `inputClassName` the textarea, and `sendButtonClassName` the send button.
+
 ### Placeholder and send button label
 
 ```tsx
@@ -216,6 +231,9 @@ export default function App() {
 | maxLength | `number` | `undefined` | Maximum input length; prevents typing beyond the limit |
 | autoFocus | `boolean` | `false` | Focus the textarea automatically on initial render |
 | className | `string` | `undefined` | Class added to the component root |
+| containerClassName | `string` | `undefined` | Additional class added to the component root |
+| messageListClassName | `string` | `undefined` | Additional class added to the scrollable messages container |
+| sendButtonClassName | `string` | `undefined` | Additional class added to the send button |
 | style | `React.CSSProperties` | `undefined` | Style added to the component root |
 
 ### Message type

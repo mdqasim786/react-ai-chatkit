@@ -90,6 +90,10 @@ console.log("Hello from the chat!");
       showSendButton
       showCopyButton
       autoFocus
+      containerClassName="demo-chat"
+      messageListClassName="demo-messages"
+      inputClassName="demo-input"
+      sendButtonClassName="demo-send"
       aiAvatarFallback={<span>🤖</span>}
       userAvatarFallback={<span>🙂</span>}
       emptyStateTitle="How can I help?"

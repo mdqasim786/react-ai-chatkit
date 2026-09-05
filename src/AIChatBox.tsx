@@ -50,11 +50,14 @@ export default function AIChatBox({
   inputStyle,
   inputContainerClassName,
   inputContainerStyle,
+  messageListClassName,
+  sendButtonClassName,
   maxInputLength,
   maxLength,
   autoFocus = false,
   timestampFormatter,
   className,
+  containerClassName,
   style,
 }: AIChatBoxProps) {
   const [input, setInput] = useState("");
@@ -146,7 +149,9 @@ export default function AIChatBox({
 
   return (
     <div
-      className={className}
+      className={["react-ai-chatbox", className, containerClassName]
+        .filter(Boolean)
+        .join(" ")}
       data-theme={theme}
       style={{
         width,
@@ -229,7 +234,9 @@ export default function AIChatBox({
 
       <div
         ref={messagesContainerRef}
-        className="react-ai-chatbox-messages"
+        className={["react-ai-chatbox-messages", messageListClassName]
+          .filter(Boolean)
+          .join(" ")}
         role="log"
         aria-live="polite"
         aria-relevant="additions"
@@ -508,7 +515,9 @@ export default function AIChatBox({
         {showSendButton && (
           <button
             type="button"
-            className="react-ai-chatbox-send-button"
+            className={["react-ai-chatbox-send-button", sendButtonClassName]
+              .filter(Boolean)
+              .join(" ")}
             disabled={cannotSend}
             onClick={handleSend}
             title={sendButtonLabel}

@@ -109,3 +109,21 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+.demo-chat {
+  border-radius: 20px;
+  border-width: 2px;
+}
+
+.demo-messages::-webkit-scrollbar-thumb {
+  background: rgba(128, 128, 128, 0.5);
+}
+
+.demo-input {
+  background: var(--code-bg);
+  color: var(--text-h);
+}
+
+.demo-send {
+  border-radius: 12px;
+}
