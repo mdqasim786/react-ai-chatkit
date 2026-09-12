@@ -129,14 +129,14 @@ export default function AIChatBox({
   };
 
   const handleInputChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    inputProps?.onChange?.(event);
+    inputPropsRest?.onChange?.(event);
     if (!event.defaultPrevented) {
       setInput(event.target.value);
     }
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
-    inputProps?.onKeyDown?.(event);
+    inputPropsRest?.onKeyDown?.(event);
 
     if (event.defaultPrevented) return;
 
@@ -481,7 +481,7 @@ export default function AIChatBox({
           className={["react-ai-chatbox-textarea", inputClassName]
             .filter(Boolean)
             .join(" ")}
-          {...inputProps}
+          {...inputPropsRest}
           value={input}
           autoFocus={autoFocus}
           disabled={isBusy}
