@@ -45,7 +45,7 @@ export default function AIChatBox({
   height = "520px",
   disabled = false,
   isTyping = false,
-  inputProps,
+  inputProps: { value: _inputPropsValue, ...inputPropsRest } = {},
   inputClassName,
   inputStyle,
   inputContainerClassName,
@@ -130,7 +130,9 @@ export default function AIChatBox({
 
   const handleInputChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     inputProps?.onChange?.(event);
-    setInput(event.target.value);
+    if (!event.defaultPrevented) {
+      setInput(event.target.value);
+    }
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
