@@ -150,6 +150,16 @@ export default function AIChatBox({
   const cannotSend = disabled || isSending || isTyping || !input.trim();
   const isBusy = disabled || isTyping;
 
+  let lastAiIndex = -1;
+  if (onRegenerate) {
+    for (let i = messages.length - 1; i >= 0; i--) {
+      if (messages[i].sender === "ai") {
+        lastAiIndex = i;
+        break;
+      }
+    }
+  }
+
   return (
     <div
       className={["react-ai-chatbox", className, containerClassName]
@@ -318,16 +328,6 @@ export default function AIChatBox({
             ? userMessageClassName
             : aiMessageClassName;
           const messageStyle = isUser ? userMessageStyle : aiMessageStyle;
-          const isLastAi =
-            !isUser &&
-            onRegenerate &&
-            index ===
-              (() => {
-                for (let i = messages.length - 1; i >= 0; i--) {
-                  if (messages[i].sender === "ai") return i;
-                }
-                return -1;
-              })();
 
           return (
             <div
@@ -415,7 +415,11 @@ export default function AIChatBox({
                       copyLabel={copyLabel}
                       colors={colors}
                       onCopy={() => handleCopyMessage(message.id, message.text)}
-                      onRegenerate={isLastAi ? onRegenerate : undefined}
+                      onRegenerate={
+                        !isUser && index === lastAiIndex
+                          ? onRegenerate
+                          : undefined
+                      }
                     />
                   )}
                 </div>
