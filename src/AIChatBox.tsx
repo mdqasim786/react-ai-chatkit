@@ -322,7 +322,12 @@ export default function AIChatBox({
             !isUser &&
             onRegenerate &&
             index ===
-              messages.findLastIndex((m) => m.sender === "ai");
+              (() => {
+                for (let i = messages.length - 1; i >= 0; i--) {
+                  if (messages[i].sender === "ai") return i;
+                }
+                return -1;
+              })();
 
           return (
             <div
