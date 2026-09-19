@@ -66,4 +66,6 @@ export interface AIChatBoxProps {
   emptyStateTitle?: string;
   emptyStateDescription?: string;
   emptyStateContent?: ReactNode;
+
+  onRegenerate?: () => void;
 }

@@ -31,6 +31,7 @@ export default function AIChatBox({
   emptyStateTitle = "Start a conversation",
   emptyStateDescription = "Send a message to begin chatting.",
   emptyStateContent,
+  onRegenerate,
   aiAvatar,
   userAvatar,
   aiAvatarFallback,
@@ -309,7 +310,7 @@ export default function AIChatBox({
           </div>
         )}
 
-        {messages.map((message) => {
+        {messages.map((message, index) => {
           const isUser = message.sender === "user";
           const isCopied = copiedMessageId === message.id;
           const copyLabel = isCopied ? "Copied!" : "Copy";
@@ -317,6 +318,11 @@ export default function AIChatBox({
             ? userMessageClassName
             : aiMessageClassName;
           const messageStyle = isUser ? userMessageStyle : aiMessageStyle;
+          const isLastAi =
+            !isUser &&
+            onRegenerate &&
+            index ===
+              messages.findLastIndex((m) => m.sender === "ai");
 
           return (
             <div
@@ -404,6 +410,7 @@ export default function AIChatBox({
                       copyLabel={copyLabel}
                       colors={colors}
                       onCopy={() => handleCopyMessage(message.id, message.text)}
+                      onRegenerate={isLastAi ? onRegenerate : undefined}
                     />
                   )}
                 </div>

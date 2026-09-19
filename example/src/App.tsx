@@ -73,6 +73,35 @@ console.log("Hello from the chat!");
     }, 1500);
   };
 
+  const handleRegenerate = () => {
+    setIsTyping(true);
+
+    window.setTimeout(() => {
+      setMessages((previousMessages) => {
+        const lastAiIndex = previousMessages.findLastIndex(
+          (m) => m.sender === "ai"
+        );
+        if (lastAiIndex === -1) return previousMessages;
+
+        const updated = [...previousMessages];
+        updated[lastAiIndex] = {
+          ...updated[lastAiIndex],
+          text: `Here is a **regenerated** response:
+
+\`\`\`tsx
+const greeting = "This message was regenerated!";
+console.log(greeting);
+\`\`\`
+
+> This replaced the previous assistant message.`,
+          timestamp: getCurrentTime(),
+        };
+        return updated;
+      });
+      setIsTyping(false);
+    }, 1200);
+  };
+
   return (
     <AIChatBox
       title="React AI Chatbox"

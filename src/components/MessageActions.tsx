@@ -1,11 +1,13 @@
 import type { ChatColors } from "../theme";
-import { CheckIcon, CopyIcon } from "./Icons";
+import { CheckIcon, CopyIcon, RefreshIcon } from "./Icons";
 
 interface MessageActionsProps {
   copied: boolean;
   copyLabel: string;
   colors: ChatColors;
   onCopy: () => void;
+  onRegenerate?: () => void;
+  regenerateLabel?: string;
 }
 
 export default function MessageActions({
@@ -13,6 +15,8 @@ export default function MessageActions({
   copyLabel,
   colors,
   onCopy,
+  onRegenerate,
+  regenerateLabel = "Regenerate",
 }: MessageActionsProps) {
   return (
     <div
@@ -49,6 +53,31 @@ export default function MessageActions({
       >
         {copied ? <CheckIcon /> : <CopyIcon />}
       </button>
+
+      {onRegenerate && (
+        <button
+          type="button"
+          className="react-ai-chatbox-copy-button react-ai-chatbox-message-copy-button"
+          aria-label={regenerateLabel}
+          title={regenerateLabel}
+          onClick={onRegenerate}
+          style={{
+            width: "28px",
+            height: "28px",
+            display: "grid",
+            placeItems: "center",
+            flexShrink: 0,
+            padding: 0,
+            border: `1px solid ${colors.border}`,
+            borderRadius: "8px",
+            background: colors.inputBackground,
+            color: colors.mutedText,
+            cursor: "pointer",
+          }}
+        >
+          <RefreshIcon />
+        </button>
+      )}
     </div>
   );
 }
