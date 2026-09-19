@@ -27,11 +27,23 @@
 - 📝 Markdown rendering (headings, lists, links, blockquotes, inline code, tables)
 - 📄 Syntax highlighted code blocks with copy button
 - 📋 Copy message button with accessible feedback
+- 🔄 Regenerate last assistant response (optional)
 - ⌨️ Enter to send, Shift + Enter for new lines
 - ⌨️ Animated typing indicator and send-button loading state
 - ⏰ Message timestamps with optional formatter
 - 📱 Responsive design with no horizontal overflow
 - ⚡ TypeScript support with exported types
+
+---
+
+## What's new in v1.1.0
+
+- **Regenerate response** — optional `onRegenerate` callback adds a regenerate button to the last assistant message
+- **Message actions** — copy and regenerate actions with accessible keyboard support
+- **Streaming-friendly** — progressive assistant content updates render cleanly without visual glitches
+- **Empty & disabled states** — improved visual handling for empty conversations and disabled input
+
+All existing v1.0.x functionality is fully preserved. No breaking changes.
 
 ---
 
@@ -182,6 +194,30 @@ Each prop is merged with the built-in class on the same element, so existing sty
 />
 ```
 
+### Regenerate last response
+
+```tsx
+<AIChatBox
+  messages={messages}
+  onSendMessage={handleSend}
+  onRegenerate={() => {
+    // Re-trigger your AI generation logic
+    // The component shows a regenerate button on the last AI message
+  }}
+/>
+```
+
+When `onRegenerate` is provided, a regenerate button appears on the last AI message. Hover or focus the message to reveal the action buttons. The button is keyboard accessible and has an appropriate accessible label.
+
+### Message actions
+
+Each assistant message shows action buttons on hover (or always on touch devices):
+
+- **Copy** — copies the message text to the clipboard with visual feedback
+- **Regenerate** — shown only on the last AI message when `onRegenerate` is provided
+
+Both buttons are keyboard accessible with visible focus indicators and `aria-label` attributes.
+
 ---
 
 # ⚙️ Props
@@ -235,6 +271,7 @@ Each prop is merged with the built-in class on the same element, so existing sty
 | messageListClassName | `string` | `undefined` | Additional class added to the scrollable messages container |
 | sendButtonClassName | `string` | `undefined` | Additional class added to the send button |
 | style | `React.CSSProperties` | `undefined` | Style added to the component root |
+| onRegenerate | `() => void` | `undefined` | Callback when the regenerate button is clicked on the last AI message |
 
 ### Message type
 

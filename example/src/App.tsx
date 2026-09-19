@@ -168,6 +168,7 @@ console.log(greeting);
         </button>
       }
       onSendMessage={handleSendMessage}
+      onRegenerate={handleRegenerate}
     />
   );
 }
